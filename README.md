@@ -26,7 +26,7 @@ You can also copy the files manually to your Magento Project.
 
 ## Configuration
 
-Some general settings can be found in __System > Configuration > Webbhuset > Features
+Some general settings can be found in __System > Configuration > Webbhuset > Features__
 
 ## List of features
 
