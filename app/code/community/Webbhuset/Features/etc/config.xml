@@ -1,0 +1,52 @@
+<config>
+    <modules>
+        <Webbhuset_Features>
+            <version>1.0.0</version>
+        </Webbhuset_Features>
+    </modules>
+    <global>
+        <blocks>
+            <whfeatures>
+                <class>Webbhuset_Features_Block</class>
+            </whfeatures>
+            <adminhtml>
+                <rewrite>
+                    <catalog_category_tab_product>Webbhuset_Features_Block_Adminhtml_Category_Tab_Product</catalog_category_tab_product>
+                </rewrite>
+            </adminhtml>
+        </blocks>
+        <helpers>
+            <whfeatures>
+                <class>Webbhuset_Features_Helper</class>
+            </whfeatures>
+        </helpers>
+        <models>
+            <whfeatures>
+                <class>Webbhuset_Features_Model</class>
+                <resourceModel>whfeatures_resource</resourceModel>
+            </whfeatures>
+            <whfeatures_resource>
+                <class>Webbhuset_Features_Model_Resource</class>
+            </whfeatures_resource>
+        </models>
+    </global>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Webbhuset_Features before="Mage_Adminhtml">Webbhuset_Features_Adminhtml</Webbhuset_Features>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <crontab>
+        <jobs>
+            <whfeatures_shuffle_stores>
+                <schedule><cron_expr>* 04 * * *</cron_expr></schedule>
+                <run><model>whfeatures/observer_cron::shuffleStoreCategories</model></run>
+            </whfeatures_shuffle_stores>
+        </jobs>
+    </crontab>
+</config>

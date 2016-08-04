@@ -1,0 +1,30 @@
+{
+    "name": "webbhuset/features",
+    "type": "magento-module",
+    "license":"proprietary",
+    "description":"Webbhuset Features",
+    "authors":[
+        {
+            "name":"Webbhuset",
+            "email":"info@webbhuset.com"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@gitlab.webbhuset.com:magento-modules/features.git"
+        }
+    ],
+    "extra": {
+        "map": [
+            [
+                "app/code/community/Webbhuset/Features/",
+                "app/code/community/Webbhuset/Features/"
+            ],
+            [
+                "app/etc/modules/Webbhuset_Features.xml",
+                "app/etc/modules/Webbhuset_Features.xml"
+            ]
+        ]
+    }
+}

@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<config>
+    <tabs>
+        <webbhuset translate="label" module="whmarketing">
+            <label>Webbhuset</label>
+            <sort_order>100</sort_order>
+        </webbhuset>
+    </tabs>
+    <sections>
+        <whfeatures translate="label" module="whmarketing">
+            <label>Features</label>
+            <tab>webbhuset</tab>
+            <sort_order>100</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <category translate="label">
+                    <label>Category</label>
+                    <sort_order>100</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <shuffle_products translate="label">
+                            <label>Random Product Order</label>
+                            <sort_order>10</sort_order>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Shuffles product order in categories every night.]]></comment>
+                        </shuffle_products>
+                    </fields>
+                </category>
+            </groups>
+        </whfeatures>
+    </sections>
+</config>
+
