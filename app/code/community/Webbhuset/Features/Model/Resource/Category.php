@@ -28,11 +28,17 @@ class Webbhuset_Features_Model_Resource_Category
     {
         $adapter = $this->_getWriteAdapter();
         $select  = $adapter->select()
-            ->from($this->_categoryProductTable, ['category_id', 'product_id'])
-            ->order('category_id, RAND()');
+            ->from(
+                ['cp' => $this->_categoryProductTable],
+                [
+                    'category_id' => 'cp.category_id',
+                    'product_id'  => 'cp.product_id'
+                ]
+            )
+            ->order('cp.category_id, RAND()');
 
         if ($categoryIds) {
-            $select->where('category_id IN (?)', $categoryIds);
+            $select->where('cp.category_id IN (?)', $categoryIds);
         }
 
         $this->_updatePosition($select);
@@ -57,13 +63,16 @@ class Webbhuset_Features_Model_Resource_Category
         }
 
         $select = $adapter->select()
-            ->from(['cp' => $this->_categoryProductTable], ['category_id', 'product_id'])
+            ->from(
+                ['cp' => $this->_categoryProductTable],
+                ['category_id', 'product_id']
+            )
             ->join(
                 ['e' => $this->getEntityTable()],
                 "e.entity_id = cp.category_id AND e.path LIKE '1/{$rootId}/%'",
                 []
             )
-            ->order('category_id, RAND()');
+            ->order('cp.category_id, RAND()');
 
         $this->_updatePosition($select);
         $this->_rootCategoriesShuffled[$rootId] = 1;
