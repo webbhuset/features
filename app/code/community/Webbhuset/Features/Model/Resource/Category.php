@@ -27,8 +27,7 @@ class Webbhuset_Features_Model_Resource_Category
     public function shuffleCategoryProducts(array $categoryIds = null)
     {
         $adapter = $this->_getWriteAdapter();
-
-        $select = $adapter->select()
+        $select  = $adapter->select()
             ->from($this->_categoryProductTable, ['category_id', 'product_id'])
             ->order('category_id, RAND()');
 
@@ -36,28 +35,7 @@ class Webbhuset_Features_Model_Resource_Category
             $select->where('category_id IN (?)', $categoryIds);
         }
 
-        $rand = $adapter->select()
-            ->from(
-                ['src' => $select],
-                [
-                    'position' => $adapter->getCheckSql(
-                        '@lastId = src.category_id',
-                        '@r := @r + 1',
-                        $adapter->getCheckSql(
-                            '@lastId := src.category_id',
-                            '@r := 0',
-                            '0'
-                        )
-                    )
-                ]
-            )
-            ->where('dest.product_id = src.product_id')
-            ->where('dest.category_id = src.category_id');
-
-        $adapter->raw_query('SET @r = 0;');
-        $adapter->raw_query('SET @lastId = 0;');
-        $update = $adapter->updateFromSelect($rand, ['dest' => $this->_categoryProductTable]);
-        $adapter->query($update);
+        $this->_updatePosition($select);
 
         return $this;
     }
@@ -78,7 +56,6 @@ class Webbhuset_Features_Model_Resource_Category
             return $this;
         }
 
-
         $select = $adapter->select()
             ->from(['cp' => $this->_categoryProductTable], ['category_id', 'product_id'])
             ->join(
@@ -88,18 +65,31 @@ class Webbhuset_Features_Model_Resource_Category
             )
             ->order('category_id, RAND()');
 
-        $rand = $adapter->select()
+        $this->_updatePosition($select);
+        $this->_rootCategoriesShuffled[$rootId] = 1;
+
+        return $this;
+    }
+
+    /**
+     * Updates catagory product position in categories matching select.
+     *
+     * @param Varien_Db_Select $select
+     * @access protected
+     * @return void
+     */
+    protected function _updatePosition($select)
+    {
+        $adapter = $this->_getWriteAdapter();
+
+        $position = $adapter->select()
             ->from(
                 ['src' => $select],
                 [
                     'position' => $adapter->getCheckSql(
                         '@lastId = src.category_id',
                         '@r := @r + 1',
-                        $adapter->getCheckSql(
-                            '@lastId := src.category_id',
-                            '@r := 0',
-                            '0'
-                        )
+                        '(@lastId := src.category_id) * (@r := 0)' // Sets r to 0 and assigns category id to lastId.
                     )
                 ]
             )
@@ -108,11 +98,7 @@ class Webbhuset_Features_Model_Resource_Category
 
         $adapter->raw_query('SET @r = 0;');
         $adapter->raw_query('SET @lastId = 0;');
-        $update = $adapter->updateFromSelect($rand, ['dest' => $this->_categoryProductTable]);
+        $update = $adapter->updateFromSelect($position, ['dest' => $this->_categoryProductTable]);
         $adapter->query($update);
-
-        $this->_rootCategoriesShuffled[$rootId] = 1;
-
-        return $this;
     }
 }
