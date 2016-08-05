@@ -27,4 +27,14 @@ class Webbhuset_Features_Adminhtml_Webbhuset_FeaturesController
 
         return $this->_forward('grid', 'catalog_category');
     }
+
+    /**
+     * Check if is allowed by acl.
+     *
+     * @return boolean
+     */
+    protected function _isAllowed()
+    {
+        return Mage::getSingleton('admin/session')->isAllowed('catalog/categories');
+    }
 }
