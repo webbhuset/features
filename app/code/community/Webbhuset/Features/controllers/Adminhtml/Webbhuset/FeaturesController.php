@@ -29,6 +29,39 @@ class Webbhuset_Features_Adminhtml_Webbhuset_FeaturesController
     }
 
     /**
+     * Shuffle category products position in a store.
+     *
+     * @access public
+     * @return void
+     */
+    public function shuffleStoresAction()
+    {
+        $request    = $this->getRequest();
+        $scope      = $request->getParam('scope');
+        $scopeId    = $request->getParam('scope_id');
+
+        switch ($scope) {
+            case 'stores':
+                $stores = [Mage::app()->getStore($scopeId)];
+                break;
+
+            case 'websites':
+                $stores = Mage::app()->getWebsite($scopeId)->getStores();
+                break;
+
+            default:
+                $stores = Mage::app()->getStores();
+        }
+
+        foreach ($stores as $store) {
+            Mage::getResourceSingleton('whfeatures/category')->shuffleStoreCategoryProducts($store);
+        }
+
+        $this->getResponse()
+            ->setBody('OK');
+    }
+
+    /**
      * Check if is allowed by acl.
      *
      * @return boolean

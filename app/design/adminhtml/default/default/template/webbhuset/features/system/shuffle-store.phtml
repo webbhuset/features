@@ -1,0 +1,27 @@
+<?php
+    $buttonLabel = $this->getButtonLabel();
+    $ajaxUrl     = $this->getAjaxUrl();
+    $htmlId      = $this->getHtmlId();
+?>
+<script type="text/javascript">
+//<![CDATA[
+    function shuffleStore() {
+        new Ajax.Request('<?= $ajaxUrl ?>', {
+            onSuccess: function(response) {
+            }
+        });
+    }
+//]]>
+</script>
+
+<button
+    onclick="javascript:shuffleStore(); return false;"
+    class="scalable"
+    type="button"
+    id="<?= $htmlId ?>"
+>
+    <span><?= $buttonLabel ?></span>
+</button>
+<p class="note">
+    <?= $this->__('Generates a random product position in categories. If a separate root category is used for a store this can be done independently. Select the store from the scope selector.') ?>
+</p>

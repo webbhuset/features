@@ -32,6 +32,15 @@
                             <show_in_store>1</show_in_store>
                             <comment><![CDATA[Shuffles product order in categories every night.]]></comment>
                         </shuffle_products>
+                        <shuffle_store translate="label">
+                            <label>Shuffle Products</label>
+                            <comment><![CDATA[]]></comment>
+                            <frontend_model>whfeatures/adminhtml_system_config_shuffleButton</frontend_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </shuffle_store>
                     </fields>
                 </category>
             </groups>
