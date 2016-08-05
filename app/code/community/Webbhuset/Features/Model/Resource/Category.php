@@ -9,7 +9,14 @@
 class Webbhuset_Features_Model_Resource_Category
     extends Mage_Catalog_Model_Resource_Category
 {
-    protected $_storesAlreadyShuffled = [];
+    /**
+     * Keeps ids of root categories already shuffled.
+     *
+     * @var mixed
+     * @access protected
+     */
+    protected $_rootCategoriesShuffled = [];
+
     /**
      * Shuffles the product position order on categories matching ids.
      *
@@ -64,11 +71,13 @@ class Webbhuset_Features_Model_Resource_Category
      */
     public function shuffleStoreCategoryProducts($store)
     {
-        if (isset($this->_storesAlreadyShuffled[$store->getId()])) {
-            return $this;
-        }
         $rootId  = $store->getRootCategoryId();
         $adapter = $this->_getWriteAdapter();
+
+        if (isset($this->_rootCategoriesShuffled[$rootId])) {
+            return $this;
+        }
+
 
         $select = $adapter->select()
             ->from(['cp' => $this->_categoryProductTable], ['category_id', 'product_id'])
@@ -102,7 +111,7 @@ class Webbhuset_Features_Model_Resource_Category
         $update = $adapter->updateFromSelect($rand, ['dest' => $this->_categoryProductTable]);
         $adapter->query($update);
 
-        $this->_storesAlreadyShuffled[$store->getId()] = 1;
+        $this->_rootCategoriesShuffled[$rootId] = 1;
 
         return $this;
     }
