@@ -44,3 +44,7 @@ There are two options for how to perform the shuffle:
 * Shuffle product position on a specific category, just press "Shuffle Product Order" under __Catalog > Manage Categories > Category Products__
 
 __Important!__ You need to update the _category products_ index after changing product position. 
+
+### Add category url to product url ###
+
+When a product url is loaded without category, the category url is added based on the category with the highest level.
