@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <config>
     <tabs>
-        <webbhuset translate="label" module="whmarketing">
+        <webbhuset translate="label" module="whfeatures">
             <label>Webbhuset</label>
             <sort_order>100</sort_order>
         </webbhuset>
     </tabs>
     <sections>
-        <whfeatures translate="label" module="whmarketing">
+        <whfeatures translate="label" module="whfeatures">
             <label>Features</label>
             <tab>webbhuset</tab>
             <sort_order>100</sort_order>
