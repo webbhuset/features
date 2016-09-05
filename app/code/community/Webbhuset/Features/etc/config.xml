@@ -19,6 +19,11 @@
             <whfeatures>
                 <class>Webbhuset_Features_Helper</class>
             </whfeatures>
+            <catalog>
+                <rewrite>
+                    <product_url_rewrite>Webbhuset_Features_Helper_Product_Url_Rewrite</product_url_rewrite>
+                </rewrite>
+            </catalog>
         </helpers>
         <models>
             <whfeatures>
