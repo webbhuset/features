@@ -33,6 +33,11 @@
             <whfeatures_resource>
                 <class>Webbhuset_Features_Model_Resource</class>
             </whfeatures_resource>
+            <sitemap>
+                <rewrite>
+                    <sitemap>Webbhuset_Features_Model_Sitemap</sitemap>
+                </rewrite>
+            </sitemap>
         </models>
     </global>
     <admin>
@@ -41,6 +46,7 @@
                 <args>
                     <modules>
                         <Webbhuset_Features before="Mage_Adminhtml">Webbhuset_Features_Adminhtml</Webbhuset_Features>
+                        <Webbhuset_Features before="Mage_Adminhtml">Webbhuset_Features</Webbhuset_Features>
                     </modules>
                 </args>
             </adminhtml>
@@ -54,4 +60,11 @@
             </whfeatures_shuffle_stores>
         </jobs>
     </crontab>
+    <default>
+        <sitemap>
+            <page>
+                <split_limit>50000</split_limit>
+            </page>
+        </sitemap>
+    </default>
 </config>
