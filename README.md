@@ -48,3 +48,7 @@ __Important!__ You need to update the _category products_ index after changing p
 ### Add category url to product url ###
 
 When a product url is loaded without category, the category url is added based on the category with the highest level.
+
+### Sitemap Splitter ###
+
+This feature split the sitemap.xml by user defineable value which defaults to 50000 (Google allows a single sitemap file to reference up to 50,000 URLs). Setting is found in System > Configuration > Catalog > google Sitemap > Generation Settings > "Split sitemap".
