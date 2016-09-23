@@ -1,7 +1,7 @@
 <?php
 require_once (Mage::getModuleDir('controllers', 'Mage_Adminhtml')
     . DS . 'SitemapController.php');
-class Webbhuset_Features_SitemapController
+class Webbhuset_Features_Adminhtml_SitemapController
     extends Mage_Adminhtml_SitemapController
 {
     /**

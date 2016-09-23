@@ -46,7 +46,6 @@
                 <args>
                     <modules>
                         <Webbhuset_Features before="Mage_Adminhtml">Webbhuset_Features_Adminhtml</Webbhuset_Features>
-                        <Webbhuset_Features before="Mage_Adminhtml">Webbhuset_Features</Webbhuset_Features>
                     </modules>
                 </args>
             </adminhtml>
