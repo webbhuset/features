@@ -8,7 +8,6 @@
 class Webbhuset_Features_Model_Sitemap
     extends Mage_Sitemap_Model_Sitemap
 {
-    
     /**
     * Sitemap file number
     *
@@ -45,16 +44,16 @@ class Webbhuset_Features_Model_Sitemap
 
         $io->streamOpen($sitemapFileName);
         $io->streamWrite('<?xml version="1.0" encoding="UTF-8"?>' . "\n");
-        $io->streamWrite('<siteMapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">');
+        $io->streamWrite('<siteMapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n");
 
-        for ($i = 1; $i < $this->_fileNumber; $i++) {
+        for ($i = 1; $i <= $this->_fileNumber; $i++) {
             $fileName = $this->_getFilename($i);
             $xml = sprintf(
                 '<sitemap><loc>%s</loc><lastmod>%s</lastmod></sitemap>',
                 $this->_getSitemapUrl($fileName),
                 $date
             );
-            $io->streamWrite($xml);
+            $io->streamWrite($xml . "\n");
         }
         $io->streamWrite('</siteMapindex>');
         $io->streamClose();
@@ -141,7 +140,7 @@ class Webbhuset_Features_Model_Sitemap
         }
         $io->streamOpen($fileName);
         $io->streamWrite('<?xml version="1.0" encoding="UTF-8"?>' . "\n");
-        $io->streamWrite('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">');
+        $io->streamWrite('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n");
 
         return $io;
     }
@@ -167,6 +166,7 @@ class Webbhuset_Features_Model_Sitemap
         $storeId = $this->getStoreId();
         $date    = Mage::getSingleton('core/date')->gmtDate('Y-m-d');
         $baseUrl = Mage::app()->getStore($storeId)->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK);
+
         /**
          * Generate categories sitemap
          */
@@ -182,7 +182,7 @@ class Webbhuset_Features_Model_Sitemap
 
         $io = $this->_newFile();
         foreach ($categories->getItems() as $item) {
-            $io = $this->_checkFile($io);
+            $io  = $this->_checkFile($io);
             $xml = sprintf(
                 '<url><loc>%s</loc><lastmod>%s</lastmod>'
                     . '<changefreq>%s</changefreq>'
@@ -192,7 +192,7 @@ class Webbhuset_Features_Model_Sitemap
                 $changefreq,
                 $priority
             );
-            $io->streamWrite($xml);
+            $io->streamWrite($xml . "\n");
         }
         unset($collection);
 
@@ -201,26 +201,23 @@ class Webbhuset_Features_Model_Sitemap
          */
         $changefreq = (string)Mage::getStoreConfig('sitemap/product/changefreq', $storeId);
         $priority   = (string)Mage::getStoreConfig('sitemap/product/priority', $storeId);
-        $collection = Mage::getResourceModel('sitemap/catalog_product')->getCollection($storeId);
-        $products = new Varien_Object();
-        $products->setItems($collection);
+        $collection = Mage::getResourceModel('whfeatures/sitemap_product')->getCollection($storeId);
 
-        Mage::dispatchEvent('sitemap_products_generating_before', array(
-            'collection' => $products
-        ));
-
-        foreach ($products->getItems() as $item) {
-            $io = $this->_checkFile($io);
-            $xml = sprintf(
-                '<url><loc>%s</loc><lastmod>%s</lastmod><changefreq>%s</changefreq><priority>%.1f</priority></url>',
-                htmlspecialchars($baseUrl . $item->getUrl()),
-                $date,
-                $changefreq,
-                $priority
-            );
-            $io->streamWrite($xml);
+        while ($products = $collection->getNextEntitiesPage()) {
+            foreach ($products as $item) {
+                $io  = $this->_checkFile($io);
+                $xml = sprintf(
+                    '<url><loc>%s</loc><lastmod>%s</lastmod><changefreq>%s</changefreq><priority>%.1f</priority></url>',
+                    htmlspecialchars($baseUrl . $item->getUrl()),
+                    $date,
+                    $changefreq,
+                    $priority
+                );
+                $io->streamWrite($xml . "\n");
+            }
         }
         unset($collection);
+        unset($products);
 
         /**
          * Generate Cms sitemap
@@ -230,7 +227,7 @@ class Webbhuset_Features_Model_Sitemap
         $collection = Mage::getResourceModel('sitemap/cms_page')->getCollection($storeId);
 
         foreach ($collection as $item) {
-            $io = $this->_checkFile($io);
+            $io  = $this->_checkFile($io);
             $xml = sprintf(
                 '<url><loc>%s</loc><lastmod>%s</lastmod><changefreq>%s</changefreq><priority>%.1f</priority></url>',
                 htmlspecialchars($baseUrl . $item->getUrl()),
@@ -238,7 +235,7 @@ class Webbhuset_Features_Model_Sitemap
                 $changefreq,
                 $priority
             );
-            $io->streamWrite($xml);
+            $io->streamWrite($xml . "\n");
         }
         unset($collection);
 

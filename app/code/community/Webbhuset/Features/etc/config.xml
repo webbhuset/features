@@ -61,9 +61,9 @@
     </crontab>
     <default>
         <sitemap>
-            <page>
+            <generate>
                 <split_limit>50000</split_limit>
-            </page>
+            </generate>
         </sitemap>
     </default>
 </config>
