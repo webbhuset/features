@@ -38,13 +38,13 @@ class Webbhuset_Features_Model_Sitemap
         $io->setAllowCreateFolders(true);
         $io->open(array('path' => $this->getPath()));
         $storeId = $this->getStoreId();
-        $date    = Mage::getSingleton('core/date')->gmtDate('Y-m-d H:i:s');
+        $date    = Mage::getSingleton('core/date')->gmtDate('Y-m-d');
         $baseUrl = Mage::app()->getStore($storeId)->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK);
         $sitemapFileName = $this->getSitemapFilename();
 
         $io->streamOpen($sitemapFileName);
         $io->streamWrite('<?xml version="1.0" encoding="UTF-8"?>' . "\n");
-        $io->streamWrite('<siteMapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n");
+        $io->streamWrite('<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n");
 
         for ($i = 1; $i <= $this->_fileNumber; $i++) {
             $fileName = $this->_getFilename($i);
@@ -55,7 +55,7 @@ class Webbhuset_Features_Model_Sitemap
             );
             $io->streamWrite($xml . "\n");
         }
-        $io->streamWrite('</siteMapindex>');
+        $io->streamWrite('</sitemapindex>');
         $io->streamClose();
     }
     
