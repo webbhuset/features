@@ -50,7 +50,7 @@ class Webbhuset_Features_Model_Resource_Sitemap_Product extends Mage_Sitemap_Mod
      * @param int $storeId
      * @return array
      */
-    public function getCollection($storeId)
+    public function getCollection($storeId , $ignoreUnRewritten = false)
     {
         /* @var $store Mage_Core_Model_Store */
         $store = Mage::app()->getStore($storeId);
@@ -71,7 +71,7 @@ class Webbhuset_Features_Model_Resource_Sitemap_Product extends Mage_Sitemap_Mod
 
         /** @var $urlRewrite Mage_Catalog_Helper_Product_Url_Rewrite_Interface */
         $urlRewrite = $this->_factory->getProductUrlRewriteHelper();
-        $urlRewrite->joinTableToSelect($this->_select, $storeId);
+        $urlRewrite->joinTableToSelect($this->_select, $storeId, $ignoreUnRewritten);
 
         $this->_addFilter($storeId, 'visibility',
             Mage::getSingleton('catalog/product_visibility')->getVisibleInSiteIds(), 'in'

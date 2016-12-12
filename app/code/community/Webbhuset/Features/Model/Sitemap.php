@@ -199,12 +199,15 @@ class Webbhuset_Features_Model_Sitemap
         /**
          * Generate Products sitemap
          */
-        $changefreq = (string)Mage::getStoreConfig('sitemap/product/changefreq', $storeId);
-        $priority   = (string)Mage::getStoreConfig('sitemap/product/priority', $storeId);
-        $collection = Mage::getResourceModel('whfeatures/sitemap_product')->getCollection($storeId);
+        $ignoreUnRewritten  = Mage::getStoreConfigFlag('sitemap/generate/ignore_url_rewrite_null');
+        $changefreq         = (string)Mage::getStoreConfig('sitemap/product/changefreq', $storeId);
+        $priority           = (string)Mage::getStoreConfig('sitemap/product/priority', $storeId);
+        $collection         = Mage::getResourceModel('whfeatures/sitemap_product')
+                                ->getCollection($storeId , $ignoreUnRewritten);
 
         while ($products = $collection->getNextEntitiesPage()) {
             foreach ($products as $item) {
+
                 $io  = $this->_checkFile($io);
                 $xml = sprintf(
                     '<url><loc>%s</loc><lastmod>%s</lastmod><changefreq>%s</changefreq><priority>%.1f</priority></url>',

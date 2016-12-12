@@ -49,15 +49,28 @@ class Webbhuset_Features_Helper_Product_Url_Rewrite
      * @param int $storeId
      * @return Mage_Catalog_Helper_Product_Url_Rewrite_Interface
      */
-    public function joinTableToSelect(Varien_Db_Select $select, $storeId)
+    public function joinTableToSelect(Varien_Db_Select $select, $storeId, $ignoreUnRewritten = false)
     {
-        $select->joinLeft(
-            array('url_rewrite' => $this->_resource->getTableName('core/url_rewrite')),
-            'url_rewrite.product_id = main_table.entity_id AND url_rewrite.is_system = 1 AND ' .
-                $this->_connection->quoteInto('url_rewrite.category_id IS NULL AND url_rewrite.store_id = ? AND ',
-                    (int)$storeId) .
-                $this->_connection->prepareSqlCondition('url_rewrite.id_path', array('like' => 'product/%')),
-            array('request_path' => 'url_rewrite.request_path'));
-        return $this;
+        if ( $ignoreUnRewritten === true) {
+            $select->join(
+                array('url_rewrite' => $this->_resource->getTableName('core/url_rewrite')),
+                'url_rewrite.product_id = main_table.entity_id AND url_rewrite.is_system = 1 AND ' .
+                    $this->_connection->quoteInto('url_rewrite.category_id IS NULL AND url_rewrite.store_id = ? AND ',
+                        (int)$storeId) .
+                    $this->_connection->prepareSqlCondition('url_rewrite.id_path', array('like' => 'product/%')),
+                array('request_path' => 'url_rewrite.request_path'));
+
+            return $this;
+        } else {
+            $select->joinLeft(
+                array('url_rewrite' => $this->_resource->getTableName('core/url_rewrite')),
+                'url_rewrite.product_id = main_table.entity_id AND url_rewrite.is_system = 1 AND ' .
+                    $this->_connection->quoteInto('url_rewrite.category_id IS NULL AND url_rewrite.store_id = ? AND ',
+                        (int)$storeId) .
+                    $this->_connection->prepareSqlCondition('url_rewrite.id_path', array('like' => 'product/%')),
+                array('request_path' => 'url_rewrite.request_path'));
+
+            return $this;
+        }
     }
 }
