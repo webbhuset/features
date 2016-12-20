@@ -43,4 +43,43 @@ class Webbhuset_Features_Model_Resource_Sitemap_Product extends Mage_Sitemap_Mod
 
         return $entities;
     }
+
+    /**
+     * Get product collection array
+     *
+     * @param int $storeId
+     * @return array
+     */
+    public function getCollection($storeId , $ignoreUnRewritten = false)
+    {
+        /* @var $store Mage_Core_Model_Store */
+        $store = Mage::app()->getStore($storeId);
+        if (!$store) {
+            return false;
+        }
+
+        $this->_select = $this->_getWriteAdapter()->select()
+            ->from(array('main_table' => $this->getMainTable()), array($this->getIdFieldName()))
+            ->join(
+                array('w' => $this->getTable('catalog/product_website')),
+                'main_table.entity_id = w.product_id',
+                array()
+            )
+            ->where('w.website_id=?', $store->getWebsiteId());
+
+        $storeId = (int)$store->getId();
+
+        /** @var $urlRewrite Mage_Catalog_Helper_Product_Url_Rewrite_Interface */
+        $urlRewrite = $this->_factory->getProductUrlRewriteHelper();
+        $urlRewrite->joinTableToSelect($this->_select, $storeId, $ignoreUnRewritten);
+
+        $this->_addFilter($storeId, 'visibility',
+            Mage::getSingleton('catalog/product_visibility')->getVisibleInSiteIds(), 'in'
+        );
+        $this->_addFilter($storeId, 'status',
+            Mage::getSingleton('catalog/product_status')->getVisibleStatusIds(), 'in'
+        );
+
+        return $this->_loadEntities();
+    }
 }

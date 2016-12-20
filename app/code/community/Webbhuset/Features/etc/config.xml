@@ -68,6 +68,7 @@
         <sitemap>
             <generate>
                 <split_limit>50000</split_limit>
+                <ignore_url_rewrite_null>0</ignore_url_rewrite_null>
             </generate>
         </sitemap>
     </default>
