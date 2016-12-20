@@ -38,6 +38,11 @@
                     <sitemap>Webbhuset_Features_Model_Sitemap</sitemap>
                 </rewrite>
             </sitemap>
+            <core>
+                <rewrite>
+                    <cookie>Webbhuset_Features_Model_Cookie</cookie>
+                </rewrite>
+            </core>
         </models>
     </global>
     <admin>
