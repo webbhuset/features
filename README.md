@@ -53,6 +53,10 @@ When a product url is loaded without category, the category url is added based o
 
 This feature split the sitemap.xml by user defineable value which defaults to 50000 (Google allows a single sitemap file to reference up to 50,000 URLs). Setting is found in System > Configuration > Catalog > google Sitemap > Generation Settings > "Split sitemap".
 
+### Sitemap Exclusion ###
+
+Ability to exclude products with the attribute code _exclude_from_sitemap_ from the sitemap. Attribute is not created and needs to be manually created through admin or an upgrade script.
+
 ### Secure cookie for all request ###
 
 Set secure cookie for all requests (frontend/adminhtml) when using https for base url.
